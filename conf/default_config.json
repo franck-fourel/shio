@@ -1,0 +1,7 @@
+{
+	"coordinator": { "port": 8080, "childPollDuration": 60000 },
+	"agent": { "port": 8008 },
+	"seaport": { "host": "localhost", "port": 8081 },
+	"aws": {"accessKeyId": "", "secretAccessKey": ""},
+	"s3Storage": { "deployDir": "/tmp/deploy" }
+}

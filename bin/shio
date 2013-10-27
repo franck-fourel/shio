@@ -1,0 +1,13 @@
+#! /usr/bin/env node
+
+var program = require('commander');
+
+program
+	.version("0.0.1")
+	.command("servers", "Commands to view and affect servers (create/delete slots, etc.)")
+	.command("slots", "Commands to view and affect slots (start, stop, assign, etc.)")
+	.parse(process.argv);
+
+if (! program.args.length) {
+  program.help();
+}
