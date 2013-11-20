@@ -1,5 +1,5 @@
 {
-  "name": "dummy-api",
+  "name": "shio",
   "version": "0.0.1",
   "description": "Test API to validate Tidepool standards and processes.",
   "main": "lib/index.js",
