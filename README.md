@@ -26,18 +26,16 @@ Shio operates by combining "deployable tarballs" with "config tarballs" and runn
 
 A deployable tarball is a `tar.gz` file with *all* application dependencies (minus system-dependencies) bundled into it.  That sentence has two concepts that require a definition:
 
-* *system dependency* - A system dependency is something that is installed on all machines in your infrastructure.  It is assumed to exist as a part of the system rather than a part of the application.  The idea is that your operations team will have one or more canonical machine images and these things are software that is installed on those images.  These are most commonly things like java, python, ruby, node, etc. The versions (or lifecycle) of these dependencies is less often tied to any specific application and more often tied to a set of tests that have been run on the hardware to make sure that everything operates as expected.
-* *application dependency* - An application dependency is something that is used by the application itself.  These are things like ruby gems, node modules or java jars.  The versions (or lifecycle) of these dependencies are intimately tied together with the application code and can regularly change from one version of the application to another.
+* ***system dependency*** - A system dependency is something that is installed on all machines in your infrastructure.  It is assumed to exist as a part of the system rather than a part of the application.  The idea is that your operations team will have one or more canonical machine images and these things are already is installed on those images.  These are most commonly things like java, python, ruby, node, etc. The versions (or lifecycle) of these dependencies is less often tied to any specific application and more often tied to a set of tests that have been run on the hardware to make sure that everything operates as expected.
+* ***application dependency*** - An application dependency is something that is used by the application itself.  These are things like ruby gems, node modules or java jars.  The versions (or lifecycle) of these dependencies are intimately tied together with the application code and can regularly change from one version of the application to another.
 
-These two concepts also define the boundary between the system adminstrator and the application developer.  The system administrator is in charge of system level dependencies.  The developer is in charge of application dependencies.  The developer can choose to use whatever they want _as long as_ they can package that thing into the tarball.
+These two concepts also define the boundary between the system administrator and the application developer.  The system administrator is in charge of system level dependencies.  The developer is in charge of application dependencies.  The developer can choose to use whatever they want ***as long as*** they can package that thing into the tarball.
 
 ### Anatomy of a "Deployable" Tarball
 
-A deployable tarball has the following contract.
+A deployable tarball ***must*** have a single directory at its root, that directory will be used as the working directory for the application.  The basic rule is that if you run `tar xzf file.tar.gz` it should create its own directory with things in it rather than dump its contents directly into your current directory.
 
-It *must* have a single directory at its root, that directory will be used as the working directory for the application.  The basic rule is that if you run `tar xzf file.tar.gz` it should create its own directory with things in it rather than dump its contents directly into your current directory.
-
-Other than that restriction, the tarball can contain anything.  It generally *should* contain *all* application dependencies.  If you are running a java program, it should have all of your jars.  If you are running a node program, it should have been built including the `node_modules` directory.
+Other than that restriction, the tarball can contain anything.  It generally *should* contain *all* application dependencies.  If you are running a java program, it should have all of your jars.  If you are running a node program, it should have been built including the `node_modules` directory. Etc.
 
 ### Config Tarballs
 
@@ -84,7 +82,7 @@ i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216
 i-311daf06   172.31.27.46    Linux    linux      x64    1      1731977216 
 ```
 
-This creates the `blah` slot on the machines and spits out the list of machines that the verb applied to.
+This creates the `blah` slot on the machines and spits out the list of machines that the verb, `createSlot` applied to.
 
 We can verify that they were created by running
 
@@ -95,7 +93,7 @@ i-f5c762c1   blah   172.31.20.133   _empty   _empty          _empty   _empty    
 i-311daf06   blah   172.31.27.46    _empty   _empty          _empty   _empty          STOPPED  
 ```
 
-This is a great time to introduce an important concept for working with shio: filters!  The shio command line operates by applying verbs (like `show`) to a list of slots or servers.  The list that the verb gets applied to can be controlled through the use of filters.  The list of available filters is a part of the help text, so just run `bin/shio servers -h` or `bin/shio slots -h` to see the list.  I'll just discuss and use two: `-m` and `-s`, the "machine" and "slot" filters.
+This is a great time to introduce an important concept for working with shio: filters!  The shio command line operates by applying verbs (like `show`) to a list of slots or servers.  The list that the verb gets applied to can be controlled through the use of filters.  The list of available filters is a part of the help text, so just run `bin/shio servers -h` or `bin/shio slots -h` to see the list.  I'll just discuss and use two in this doc: `-m` and `-s`, the "machine" and "slot" filters.
 
 Let's filter down the servers listing real quick
 
@@ -145,7 +143,7 @@ i-f5c762c1   blah   172.31.20.133   _empty   _empty          _empty   _empty    
 i-311daf06   blah   172.31.27.46    _empty   _empty          _empty   _empty          STOPPED   
 ```
 
-Now, to deploy things, we're going to assume you already have tarballs created and in the right locations.  If you don't, just imagine that you did and that these things would magically work for you.  You've gotten this far, so you are probably good at that.
+Now, to deploy things, we're going to assume you already have tarballs created and in the right locations.  If you don't, just imagine that you did and that these things would magically work for you.  You've gotten this far, so you are probably good at the imagination thingie.
 
 ``` bash
 ~/shio$bin/shio slots assign my_app 0.2.4-1 demo 2013-11-10
@@ -228,6 +226,7 @@ Also, shio uses substack/seaport to communicate which agents are alive to the co
 
 ## TODO
 
+1. Document tarball storage
 1. Make a verb that allows you to list the binaries and versions available.  Same for configs.
 2. Make a verb that pulls the config down for you to inspect locally
 3. Persist state about nodes so that servers that disappear can be viewed from the servers view
