@@ -3,45 +3,45 @@
 var ActAndListCli = require('../lib/cli/ActAndListCli.js');
 
 new ActAndListCli({
-	endpoint: '/slots',
-	defaultFields: ['machine', 'slot', 'host', 'binary', 'binaryVersion', 'config', 'configVersion', 'state'],
-	fields: [ { name: 'machine', flag: '-m'  }, 
-						{ name: 'slot', flag: '-s'},
-						{ name: 'binary', flag: '-b'},
-						{ name: 'binaryVersion', flag: '-bV'},
-						{ name: 'config', flag: '-c'},
-						{ name: 'configVersion', flag: '-cV'},
-						{ name: 'state', flag: '-s'},
-						{ name: 'host' },
-						{ name: 'osType', flag: '-oT' },
-						{ name: 'platform', flag: '-p' },
-						{ name: 'arch', flag: '-a' },
-						{ name: 'cpus' },
-						{ name: 'mem' } ]
+  endpoint: '/slots',
+  defaultFields: ['machine', 'slot', 'host', 'binary', 'binaryVersion', 'config', 'configVersion', 'state'],
+  fields: [ { name: 'machine', flag: '-m'  },
+            { name: 'slot', flag: '-s'},
+            { name: 'binary', flag: '-b'},
+            { name: 'binaryVersion', flag: '-bV'},
+            { name: 'config', flag: '-c'},
+            { name: 'configVersion', flag: '-cV'},
+            { name: 'state', flag: '-s'},
+            { name: 'host' },
+            { name: 'osType', flag: '-oT' },
+            { name: 'platform', flag: '-p' },
+            { name: 'arch', flag: '-a' },
+            { name: 'cpus' },
+            { name: 'mem' } ]
 }).build(function(cli, program) {
-	program
-		.command("assign <binary> <binaryVersion> <config> <configVersion>")
-		.description("assigns a binary and a config")
-		.action(function(binary, binaryVersion, config, configVersion) {
-			return cli.doActionAndShow({
-				type : 'assign', 
-				binary: { name: binary, version: binaryVersion },
-				config: { name: config, version: configVersion }
-			});
-		});
+  program
+    .command("assign <binary> <binaryVersion> <config> <configVersion>")
+    .description("assigns a binary and a config")
+    .action(function(binary, binaryVersion, config, configVersion) {
+      return cli.doActionAndShow({
+        type : 'assign',
+        binary: { name: binary, version: binaryVersion },
+        config: { name: config, version: configVersion }
+      });
+    });
 
-	program
-		.command("unassign")
-		.description("unassigns and removes all deployments of a binary")
-		.action(cli.doActionAndShow.bind(cli, { type : 'unassign' }));
+  program
+    .command("unassign")
+    .description("unassigns and removes all deployments of a binary")
+    .action(cli.doActionAndShow.bind(cli, { type : 'unassign' }));
 
-	program
-		.command("start")
-		.description("starts processes")
-		.action(cli.doActionAndShow.bind(cli, { type : 'start' }));
+  program
+    .command("start")
+    .description("starts processes")
+    .action(cli.doActionAndShow.bind(cli, { type : 'start' }));
 
-	program
-		.command("stop")
-		.description("stops processes")
-		.action(cli.doActionAndShow.bind(cli, { type : 'stop' }));
+  program
+    .command("stop")
+    .description("stops processes")
+    .action(cli.doActionAndShow.bind(cli, { type : 'stop' }));
 }).run();

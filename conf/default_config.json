@@ -1,7 +1,7 @@
 {
-	"coordinator": { "port": 17000, "childPollDuration": 60000 },
-	"agent": { "port": 17001 },
-	"seaport": { "host": "localhost", "port": 17002 },
-	"aws": {"accessKeyId": "", "secretAccessKey": ""},
-	"s3Storage": { "deployDir": "/tmp/deploy" }
+  "coordinator": { "port": 17000, "childPollDuration": 60000 },
+  "agent": { "port": 17001 },
+  "seaport": { "host": "localhost", "port": 17002 },
+  "aws": {"accessKeyId": "", "secretAccessKey": ""},
+  "s3Storage": { "deployDir": "/tmp/deploy" }
 }

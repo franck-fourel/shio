@@ -3,26 +3,26 @@
 var ActAndListCli = require('../lib/cli/ActAndListCli.js');
 
 new ActAndListCli({
-	endpoint: '/servers',
-	fields: [ { name: 'machine', flag: '-m'  }, 
-						{ name: 'host' },
-						{ name: 'osType', flag: '-oT' },
-						{ name: 'platform', flag: '-p' },
-						{ name: 'arch', flag: '-a' },
-						{ name: 'cpus' },
-						{ name: 'mem' } ]
+  endpoint: '/servers',
+  fields: [ { name: 'machine', flag: '-m'  },
+            { name: 'host' },
+            { name: 'osType', flag: '-oT' },
+            { name: 'platform', flag: '-p' },
+            { name: 'arch', flag: '-a' },
+            { name: 'cpus' },
+            { name: 'mem' } ]
 }).build(function(cli, program) {
-	program
-		.command("createSlot <id>")
-		.description("creates a new slot on the server")
-		.action(function(id) {
-			return cli.doActionAndShow({ type : 'createSlot',  id: id });
-		});
+  program
+    .command("createSlot <id>")
+    .description("creates a new slot on the server")
+    .action(function(id) {
+      return cli.doActionAndShow({ type : 'createSlot',  id: id });
+    });
 
-	program
-		.command("deleteSlot <id>")
-		.description("deletes a slot on the server")
-		.action(function(id) {
-			return cli.doActionAndShow({ type : 'deleteSlot',  id: id });
-		});
+  program
+    .command("deleteSlot <id>")
+    .description("deletes a slot on the server")
+    .action(function(id) {
+      return cli.doActionAndShow({ type : 'deleteSlot',  id: id });
+    });
 }).run();
