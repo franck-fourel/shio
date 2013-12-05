@@ -51,6 +51,11 @@ In general, it is most common (and probably advisable) to store the `start.sh` s
 
 `start.sh` should generally use exec to run the long-running application process.
 
+Some things to keep in mind when writing a `start.sh` script
+
+1. Have a preamble.  Start your script with `#! /bin/bash -eu` or something similar.  Without that directive, it is possible that your script will be run by something that doesn't have everything you expect it to have.
+2. Setup your config.  `start.sh` is the ***only*** entry-point for shio into the tarball.  If you need to do something to setup configuration for your process, `start.sh` ***must*** do it.
+
 ## Interacting with Shio
 
 These instructions assume someone else has setup shio for you and you are just using it.  Even if you are planning on setting up the software, I recommend reading this first just to get a high-level understanding of what shio provides.
