@@ -231,6 +231,7 @@ Also, shio uses substack/seaport to communicate which agents are alive to the co
 2. Make a verb that pulls the config down for you to inspect locally
 3. Persist state about nodes so that servers that disappear can be viewed from the servers view
 4. Make a verb that allows you to push tarballs through shio instead of directly into s3
+5. Make the slot creation command actually show you the slots you created
 
 
 
