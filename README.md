@@ -152,7 +152,7 @@ i-311daf06   blah   172.31.27.46    my_app     0.2.4-1         demo     2013-11-
 i-f5c762c1   blah   172.31.20.133   my_app     0.2.4-1         demo     2013-11-10      RUNNING
 ```
 
-Here we assigned a specific binary and a specific config to all slots.  Shio downloaded the relevant tarballs and splatted them over each other as described above and ran the `start.sh` script.
+Here we assigned a specific binary and a specific config to all slots.  Note that there are 4 arguments being passed to the `assign` verb: `<binary> <binaryVersion> <config> <configVersion>`.  Shio downloaded the relevant tarballs and splatted them over each other as described above and ran the `start.sh` script.
 
 Let's stop just one of them
 
