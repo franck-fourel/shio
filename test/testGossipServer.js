@@ -1,45 +1,30 @@
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
-var chai = require('chai');
-chai.use(sinonChai);
+var fixture = require('./fixture.js');
 
-var expect = chai.expect;
-var supertest = require('supertest');
-
+var sinon = fixture.sinon;
+var expect = fixture.expect;
+var supertest = fixture.supertest;
+var mockableObject = fixture.mockableObject;
 
 var config = {port: 23000};
-function addFn(object, name) {
-  object[name] = function() {
-    expect(name).is.equals("never called");
-  };
-};
 
 describe("GossipServer.js", function(){
-  var serverFactory = require('../lib/common/ServerFactory.js');
+  var serverFactory = require('../lib/common/serverFactory.js');
   
-  var gossipHandlerApi = {};
-  addFn(gossipHandlerApi, "addCoordinator");
-  addFn(gossipHandlerApi, "getCoordinators");
-  addFn(gossipHandlerApi, "addAgent");
-  addFn(gossipHandlerApi, "getAgent");
-  addFn(gossipHandlerApi, "getAgentHosts");
+  var gossipHandlerApi = mockableObject.make(
+    "addCoordinator", "getCoordinators", "addAgent", "getAgent", "getAgentHosts"
+  );
 
   var api
 
   before(function(){
-    var gossipServer = require('../lib/coordinator/GossipServer.js')(serverFactory, gossipHandlerApi, config);
+    var gossipServer = require('../lib/coordinator/gossipServer.js')(serverFactory, gossipHandlerApi, config);
     gossipServer.start();
 
     api = supertest('http://localhost:' + config.port);
   });
 
   beforeEach(function() {
-    for (var fn in gossipHandlerApi) {
-      if (gossipHandlerApi[fn]['restore'] != null) {
-        gossipHandlerApi[fn].restore();
-      }
-      expect(gossipHandlerApi[fn]['restore']).undefined;
-    }
+    mockableObject.reset(gossipHandlerApi);
   });
 
   describe("v1", function(){

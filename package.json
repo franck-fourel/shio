@@ -1,7 +1,7 @@
 {
   "name": "shio",
   "version": "0.0.1",
-  "description": "Test API to validate Tidepool standards and processes.",
+  "description": "Deployment infrastructure",
   "main": "lib/index.js",
   "directories": {
     "lib": "./lib"
@@ -13,22 +13,23 @@
   "repository": "https://github.com/cheddar/shio.git",
   "author": "Eric Tschetter",
   "dependencies": {
+    "async": "0.2.5",
+    "aws-sdk": "0.9.8-pre.9",
+    "bunyan": "0.22.1",
+    "commander": "2.0.0",
+    "lodash": "2.4.1",
     "restify": "2.6.0",
     "request": "2.25.0",
-    "aws-sdk": "0.9.8-pre.9",
     "shelljs": "0.2.6",
-    "async": "0.2.5",
-    "commander": "2.0.0",
     "sprintf-js": "0.0.7",
-    "bunyan": "0.22.1",
-    "lodash": "2.4.1"
+    "superagent": "0.15.7"
   },
   "devDependencies": {
+    "chai": "1.8.1",
+    "grunt-mocha-test": "0.7.0",
     "mocha": "1.13.0",
     "sinon": "1.7.3",
-    "chai": "1.8.1",
     "sinon-chai": "2.4.0",
-    "grunt-mocha-test": "0.7.0",
     "supertest": "0.8.2"
   }
 }
