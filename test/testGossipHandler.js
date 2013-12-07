@@ -5,7 +5,7 @@ var sinon = fixture.sinon;
 var mockableObject = fixture.mockableObject;
 
 var makeClient = function(){
-  return mockableObject.make("getCoordinators", "getHost");
+  return mockableObject.make("getCoordinators", "addCoordinator", "getHost");
 }
 
 describe("GossipHandler.js", function(){
@@ -39,10 +39,15 @@ describe("GossipHandler.js", function(){
     var newCoordinator = {host: 'localhost', port: 2222}
     sinon.stub(client, "getCoordinators").callsArgWith(0, null, [newCoordinator]);
 
+    // The new coordinator list won't have "me", so it should try to register itself
+    sinon.stub(client, "addCoordinator").callsArg(1);
+
     // Call the "repeat" fn with a new coordinator
     polling.repeat.getCall(0).args[1](function(arg){ expect(arg).undefined });
 
     expect(gossipHandler.getCoordinators()).to.deep.equal([self, newCoordinator]);
+    expect(client.addCoordinator).have.been.calledOnce;
+    expect(client.addCoordinator).have.been.calledWith(self);
   });
 
   describe("post-construction", function(){
