@@ -1,7 +1,6 @@
 {
   "coordinator": { "host": "localhost", "port": 17000, "childPollDuration": 60000 },
-  "gossip": { "host": "localhost", "port": 17002, "pollDuration": 60000 },
-  "agent": { "port": 17001 },
-  "aws": {"accessKeyId": "", "secretAccessKey": ""},
-  "s3Storage": { "deployDir": "/tmp/deploy" }
+  "gossip": { "host": "localhost", "port": 17002, "heartbeatDuration": 60000 },
+  "agent": { "port": 17001, "deployDir": "/tmp/deploy" },
+  "aws": {"accessKeyId": "", "secretAccessKey": ""}
 }

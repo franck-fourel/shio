@@ -4,7 +4,7 @@ var expect = fix.expect;
 
 function addFn(object, name) {
   object[name] = function() {
-    expect(name).is.equals("never called");
+    expect(name).equals("was called when it should not have been");
   };
 };
 

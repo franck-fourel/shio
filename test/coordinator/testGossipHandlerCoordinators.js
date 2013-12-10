@@ -1,4 +1,4 @@
-var fixture = require('./fixture.js');
+var fixture = require('../fixture.js');
 
 var expect = fixture.expect;
 var sinon = fixture.sinon;
@@ -8,11 +8,11 @@ var makeClient = function(){
   return mockableObject.make("getCoordinators", "addCoordinator", "getHost");
 }
 
-describe("GossipHandler.js", function(){
-  var factory = require('../lib/coordinator/gossipHandler.js');
+describe("gossipHandlerCoordinators.js", function(){
+  var factory = require('../../lib/coordinator/gossipHandlerCoordinators.js');
 
-  var self = {host: 'localhost', port: 1234, name: 'test'};
-  var config = {host: 'coordinator.lb', port: 1234, pollDuration: 60000};
+  var self = {host: 'localhost:1234', name: 'test'};
+  var config = {host: 'coordinator.lb', port: 1234, heartbeatDuration: 60000};
   var gossipHandler;
 
   var coordinatorClientFactory = sinon.stub();
@@ -30,13 +30,13 @@ describe("GossipHandler.js", function(){
     expect(gossipHandler).to.exist;
 
     expect(polling.repeat).have.been.calledOnce;
-    expect(polling.repeat).have.been.calledWith('resync', sinon.match.func, config.pollDuration * 10);
+    expect(polling.repeat).have.been.calledWith('resync', sinon.match.func, config.heartbeatDuration * 10);
 
     // It should have itself registered right now
     expect(gossipHandler.getCoordinators()).to.deep.equal([self]);
 
     // Setup the client to return a new coordinator
-    var newCoordinator = {host: 'localhost', port: 2222}
+    var newCoordinator = {host: 'localhost:2222'}
     sinon.stub(client, "getCoordinators").callsArgWith(0, null, [newCoordinator]);
 
     // The new coordinator list won't have "me", so it should try to register itself
@@ -65,7 +65,7 @@ describe("GossipHandler.js", function(){
 
     describe("coordinators", function(){
       it("should be able to add a new coordinator and start polling it.", function() {
-        var coordinator = {host: 'localhost', port: 2222, name: 'billybill'};
+        var coordinator = {host: 'localhost:2222', name: 'billybill'};
 
         var client = makeClient();
         coordinatorClientFactory.returns(client);
@@ -73,7 +73,7 @@ describe("GossipHandler.js", function(){
 
         gossipHandler.addCoordinator(coordinator);
         expect(gossipHandler.getCoordinators()).to.deep.equal([self, coordinator]);
-        expect(polling.repeat).have.been.calledWith(sinon.match.string, sinon.match.func, config.pollDuration);
+        expect(polling.repeat).have.been.calledWith(sinon.match.string, sinon.match.func, config.heartbeatDuration);
 
         // Setup the client to return a new coordinator
         var newCoordinator = {host: 'localhost', port: 22222}
@@ -83,38 +83,6 @@ describe("GossipHandler.js", function(){
         polling.repeat.getCall(0).args[1](function(arg){ expect(arg).undefined });
 
         expect(gossipHandler.getCoordinators()).to.deep.equal([self, coordinator, newCoordinator]);
-      });
-    });
-
-    describe("agents", function() {
-      it("should start with no agents", function() {
-        expect(gossipHandler.getAgentHosts()).is.empty;
-      });
-
-      var agent1 = {host: 'localhost', port: 2223, name: '770'};
-      var getKey = function(obj) { return obj.host + ':' + obj.port };
-    
-      it("should be able to be added", function() {
-        gossipHandler.addAgent(agent1);
-        expect(gossipHandler.getAgentHosts()).to.deep.equal([getKey(agent1)]);
-        expect(gossipHandler.getAgent(getKey(agent1))).to.deep.equal(agent1);
-      });
-
-      it("should be able to be removed", function() {
-        var anotherAgent = {host: 'localhost', port: 2224, name:'007'};
-
-        gossipHandler.addAgent(agent1);
-        gossipHandler.addAgent(anotherAgent);
-
-        expect(gossipHandler.getAgentHosts()).to.deep.equal([getKey(agent1), getKey(anotherAgent)]);
-        expect(gossipHandler.getAgent(getKey(agent1))).to.deep.equal(agent1);
-        expect(gossipHandler.getAgent(getKey(anotherAgent))).to.deep.equal(anotherAgent);
-
-        gossipHandler.removeAgent(getKey(agent1));
-        expect(gossipHandler.getAgentHosts()).to.deep.equal([getKey(anotherAgent)]);
-
-        gossipHandler.removeAgent(getKey(anotherAgent));
-        expect(gossipHandler.getAgentHosts()).is.empty;
       });
     });
   });
