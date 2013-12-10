@@ -43,6 +43,12 @@ describe("gossipHandlerAgents.js", function(){
       hasAgents(agent1);
     });
 
+    it("should be able to add an agent via heartbeat", function(){
+      sinon.stub(timeProvider, "getTime").returns(new Date().getTime());
+      gossipHandler.agentHeartbeat(agent1);
+      hasAgents(agent1);
+    });
+
     it("should automatically remove agents based on a lack of heartbeats", function() {
       var anotherAgent = {host: 'localhost:2224', name:'007'};
 
