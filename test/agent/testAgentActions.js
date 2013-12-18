@@ -22,6 +22,8 @@ describe("AgentActions.js", function(){
 
     it("works", function(done){
       var outFile = path.join(shell.tempdir(), 'interpolateConfig');
+      shell.rm(outFile);
+
       JSON.stringify({host: "#{billy}", brother: "man", sister: "#{sally}"}).to(outFile);
       actions.interpolateFile(outFile, actions.buildInterpolationValues({}), function(err){
         var contents = JSON.parse(shell.cat(outFile));
@@ -36,6 +38,7 @@ describe("AgentActions.js", function(){
 
     it("works", function(done){
       var outDir = path.join(shell.tempdir(), 'interpolateValues');
+      shell.rm('-rf', outDir);
       shell.mkdir(outDir);
 
       var output = {host: "#{billy}", brother: "man", sister: "#{sally}"};
@@ -54,8 +57,25 @@ describe("AgentActions.js", function(){
       });
     });
 
+    it("reports error when the interpolation file is written wrong", function(done){
+      var outDir = path.join(shell.tempdir(), 'interpolateValuesWrongFile');
+      shell.rm('-rf', outDir);
+      shell.mkdir(outDir);
+
+      var output = {host: "#{billy}", brother: "man", sister: "#{sally}"};
+      var interpolated = {host: "bob", brother: "man", sister: "sue"};
+
+      "changeMe.txt\nchangeMePretty.txt".to(path.join(outDir, "_interpolation.files"));
+      actions.interpolateValues(outDir, actions.buildInterpolationValues({}), function(err){
+        expect(err).to.exist;
+        shell.rm('-rf', outDir);
+        done();
+      });
+    });
+
     it ("completes if no interpolation files", function(done){
       var outDir = path.join(shell.tempdir(), 'interpolateValuesNoFiles');
+      shell.rm('-rf', outDir);
       shell.mkdir(outDir);
       actions.interpolateValues(outDir, actions.buildInterpolationValues({}), function(err){
         shell.rm('-rf', outDir);
