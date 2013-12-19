@@ -43,6 +43,45 @@ A config tarball contains all of the configuration for your application.  It has
 
 That is, if you want a file `config.json` to exist in the `conf` directory for your application deploy, your config tarball should just contain `conf/config.json`.
 
+#### Interpolation of config values
+
+Configuration files can also have values interpolated into them.  This is done via having including an `_interpolation.files` in your config bundle.  `_interpolation.files` should be a JSON array of the file names that you want the agent to interpolate values into.
+
+Interpolation is done via named parameters in the config files.  If you have `#{parameter}` in a config file that is set to be interpolated, the agent will replace `#{parameter}` with its known value of `parameter`.
+
+For example, if you have a `config.json` file that you want the current host added to, you could create:
+
+* `_interpolation.files`
+
+    ```
+    ["config.json"]
+    ```
+* `config.json`
+
+    ```
+    { "host": "#{host}"" }
+    ```
+
+Assuming that the current host is `192.168.1.10`, this config file would be rewritten as
+
+```
+{ "host": "192.168.1.10"}
+```
+
+Note the quotes in the example `config.json` file.  Shio simply does a replacement of the parameter value and doesn't know anything about the syntax of the file.  So, if you need a JSON string, you must wrap it in quotes externally.
+
+You can extend the options available for interpolation by adding anything you want to the `self` section of the agent's configuration file.  By default, the following parameters are available.
+
+* hostname -> `os.hostname()`
+* osType -> `os.type()`
+* platform -> `os.platform()`
+* arch -> `os.arch()`
+* cpus -> `os.cpus().length`
+* mem -> `os.totalmem()`
+* host -> `config.self.host`
+* port -> `config.agent.port`
+* persistentStorage -> A directory that can be used by the process for storage of things that should persist from one deploy to another.
+
 ### Running
 
 Shio runs the application by calling the `start.sh` script.  So, after extracting the deployable tarball and the config tarball, a `start.sh` script *must* exist in the working directory.
@@ -227,7 +266,8 @@ Config tarballs follow the path structure:
 
 Check out `conf/default-config.json` for shio's configuration options and their defaults.  You can override any of the defaults by creating a `config.json` file in the root directory of shio and specifying new values for the fields you want to override.
 
-Also, shio uses substack/seaport to communicate which agents are alive to the coordinators.  You can override any property in the seaport registration config by adding a field to the agent object in the config.
+You can add new config interpolation properties by putting them in the "self" portion of the config.  Everything added there on the agent processes will be available for interpolation.
+
 
 ## TODO
 
