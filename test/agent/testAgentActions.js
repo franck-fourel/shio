@@ -20,7 +20,7 @@ describe("AgentActions.js", function(){
       {"billy": "bob", "sally": "sue"}
     );
 
-    it("works", function(done){
+    it("passes a sanity check", function(done){
       var outFile = path.join(shell.tempdir(), 'interpolateConfig');
       shell.rm(outFile);
 
@@ -32,6 +32,20 @@ describe("AgentActions.js", function(){
         done(err);
       });
     });
+
+    it("replaces all instances, even if it occurs more than once", function(done){
+      var outFile = path.join(shell.tempdir(), 'interpolateConfig');
+      shell.rm(outFile);
+
+      JSON.stringify({host: "#{billy}", brother: "man", sister: "#{billy}"}).to(outFile);
+      actions.interpolateFile(outFile, actions.buildInterpolationValues({}), function(err){
+        var contents = JSON.parse(shell.cat(outFile));
+        expect(contents).deep.equals({host: "bob", brother: "man", sister: "bob"});
+        shell.rm(outFile);
+        done(err);
+      });
+    });
+
   });
 
   describe("interpolateValues()", function(){
