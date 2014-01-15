@@ -10,7 +10,7 @@
     "coordinator": "node lib/coordinator.js",
     "agent": "node lib/agent.js"
   },
-  "repository": "https://github.com/cheddar/shio.git",
+  "repository": "https://github.com/tidepool-org/shio.git",
   "author": "Eric Tschetter",
   "dependencies": {
     "async": "0.2.9",
