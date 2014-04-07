@@ -1,8 +1,8 @@
-var fixture = require('../fixture.js');
+var fixture = require('salinity');
 
 var sinon = fixture.sinon;
 var expect = fixture.expect;
-var supertest = fixture.supertest;
+var supertest = require('supertest');
 var mockableObject = fixture.mockableObject;
 
 var config = {port: 23000};

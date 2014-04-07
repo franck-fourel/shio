@@ -1,4 +1,4 @@
-var fixture = require('../fixture.js');
+var fixture = require('salinity');
 
 var expect = fixture.expect;
 var sinon = fixture.sinon;

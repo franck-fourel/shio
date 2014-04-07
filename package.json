@@ -8,28 +8,25 @@
   },
   "scripts": {
     "coordinator": "node lib/coordinator.js",
-    "agent": "node lib/agent.js"
+    "agent": "node --trace_gc --max_old_space_size=64 lib/agent.js"
   },
   "repository": "https://github.com/tidepool-org/shio.git",
   "author": "Eric Tschetter",
   "dependencies": {
-    "async": "0.2.9",
-    "aws-sdk": "2.0.0-rc4",
+    "amoeba": "0.0.8",
+    "async": "0.2.10",
+    "aws-sdk": "2.0.0-rc13",
     "bunyan": "0.22.1",
-    "commander": "2.0.0",
+    "commander": "2.1.0",
     "lodash": "2.4.1",
-    "restify": "2.6.0",
-    "request": "2.25.0",
+    "restify": "2.7.0",
+    "request": "2.34.0",
     "shelljs": "0.2.6",
     "sprintf-js": "0.0.7",
-    "superagent": "0.15.7"
+    "superagent": "0.17.0"
   },
   "devDependencies": {
-    "chai": "1.8.1",
-    "grunt-mocha-test": "0.7.0",
-    "mocha": "1.13.0",
-    "sinon": "1.7.3",
-    "sinon-chai": "2.4.0",
-    "supertest": "0.8.2"
+    "salinity": "0.0.5",
+    "supertest": "0.10.0"
   }
 }

@@ -1,7 +1,7 @@
-var fixture = require('../fixture.js');
-var mockableObject = require('../mockableObject.js');
+var fixture = require('salinity');
 
 var expect = fixture.expect;
+var mockableObject = fixture.mockableObject;
 var sinon = fixture.sinon;
 
 describe("agentGossipManager.js", function(){
