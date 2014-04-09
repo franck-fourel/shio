@@ -5,7 +5,7 @@ var ActAndListCli = require('../lib/cli/ActAndListCli.js');
 new ActAndListCli({
   endpoint: '/servers',
   fields: [ { name: 'machine', flag: '-m'  },
-            { name: 'ip', flag: '-i' },
+            { name: 'host', flag: '-H' },
             { name: 'osType', flag: '-oT' },
             { name: 'platform', flag: '-p' },
             { name: 'arch', flag: '-a' },
