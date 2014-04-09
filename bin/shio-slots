@@ -13,7 +13,7 @@ new ActAndListCli(
               { name: 'config', flag: '-c'},
               { name: 'configVersion', flag: '-cV'},
               { name: 'state', flag: '-s'},
-              { name: 'host' },
+              { name: 'ip', flag: '-i' },
               { name: 'osType', flag: '-oT' },
               { name: 'platform', flag: '-p' },
               { name: 'arch', flag: '-a' },
