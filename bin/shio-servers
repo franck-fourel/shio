@@ -25,4 +25,11 @@ new ActAndListCli({
     .action(function(id) {
       return cli.doActionAndShow({ type : 'deleteSlot',  id: id });
     });
+
+  program
+    .command("replicate <machine>")
+    .description("replicates the deployed apps from the specified machine onto all servers matched by filters")
+    .action(function(machine) {
+      return cli.doActionAndShow({ type : 'replicate',  machine: machine });
+    });
 }).run();
