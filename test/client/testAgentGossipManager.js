@@ -1,19 +1,20 @@
 /*
  * == BSD2 LICENSE ==
  * Copyright (c) 2014, Tidepool Project
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the associated License, which is identical to the BSD 2-Clause
  * License as published by the Open Source Initiative at opensource.org.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the License for more details.
- * 
+ *
  * You should have received a copy of the License along with this program; if
  * not, you can obtain one from Tidepool Project at tidepool.org.
  * == BSD2 LICENSE ==
  */
+ 'use strict';
 
 var fixture = require('salinity');
 
@@ -21,7 +22,7 @@ var expect = fixture.expect;
 var mockableObject = fixture.mockableObject;
 var sinon = fixture.sinon;
 
-describe("agentGossipManager.js", function(){
+describe('agentGossipManager.js', function(){
   var agent = {billy: 'hi'};
   var config = { host: 'localhost', heartbeatDuration: 60000 };
   var polling = mockableObject.make('repeat');
@@ -40,11 +41,11 @@ describe("agentGossipManager.js", function(){
     factory.reset();
   });
 
-  it("starts empty", function() {
+  it('starts empty', function() {
     expect(agentGossipManager.getCurrCoordinators()).is.empty;
   });
 
-  it("registers a poller to collect a set of coordinators on start()", function(){
+  it('registers a poller to collect a set of coordinators on start()', function(){
     sinon.stub(polling, 'repeat');
     agentGossipManager.start();
 
@@ -68,7 +69,7 @@ describe("agentGossipManager.js", function(){
     expect(polling.repeat).have.been.calledThrice;
   });
 
-  it("registers a poller to collect a set of coordinators on start()", function(){
+  it('registers a poller to collect a set of coordinators on start()', function(){
     sinon.stub(polling, 'repeat');
     agentGossipManager.start();
 
