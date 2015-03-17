@@ -1,6 +1,6 @@
 {
   "name": "shio",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Deployment infrastructure",
   "main": "lib/index.js",
   "directories": {
