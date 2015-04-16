@@ -1,4 +1,4 @@
-Shio is a deployment tool.  The name comes from the Japanese word for the tide and refers to 
+Shio is a deployment tool.  The name comes from the Japanese word for the tide and refers to
 
 1. http://www.tidepool.org the organization that it was originally developed for
 1. The fact that deployments happen in waves -- ok, I just made that up
@@ -105,9 +105,9 @@ You can see a list of your current servers by running `bin/shio servers show`, w
 
 ``` bash
 ~/shio$bin/shio servers show
-machine      host            osType   platform   arch   cpus   mem          
-i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216   
-i-311daf06   172.31.27.46    Linux    linux      x64    1      1731977216  
+machine      host            osType   platform   arch   cpus   mem
+i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216
+i-311daf06   172.31.27.46    Linux    linux      x64    1      1731977216
 ```
 
 You can also see the set of slots available with
@@ -121,9 +121,9 @@ This shows no slots because we haven't created any yet.  Let's create one.
 
 ``` bash
 ~/shio$bin/shio servers createSlot blah
-machine      host            osType   platform   arch   cpus   mem          
-i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216   
-i-311daf06   172.31.27.46    Linux    linux      x64    1      1731977216 
+machine      host            osType   platform   arch   cpus   mem
+i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216
+i-311daf06   172.31.27.46    Linux    linux      x64    1      1731977216
 ```
 
 This creates the `blah` slot on the machines and spits out the list of machines that the verb, `createSlot` applied to.
@@ -132,9 +132,9 @@ We can verify that they were created by running
 
 ``` bash
 ~/shio$bin/shio slots show
-machine      slot   host            binary   binaryVersion   config   configVersion   state     
-i-f5c762c1   blah   172.31.20.133   _empty   _empty          _empty   _empty          STOPPED   
-i-311daf06   blah   172.31.27.46    _empty   _empty          _empty   _empty          STOPPED  
+machine      slot   host            binary   binaryVersion   config   configVersion   state
+i-f5c762c1   blah   172.31.20.133   _empty   _empty          _empty   _empty          STOPPED
+i-311daf06   blah   172.31.27.46    _empty   _empty          _empty   _empty          STOPPED
 ```
 
 This is a great time to introduce an important concept for working with shio: filters!  The shio command line operates by applying verbs (like `show`) to a list of slots or servers.  The list that the verb gets applied to can be controlled through the use of filters.  The list of available filters is a part of the help text, so just run `bin/shio servers -h` or `bin/shio slots -h` to see the list.  I'll just discuss and use two in this doc: `-m` and `-s`, the "machine" and "slot" filters.
@@ -143,56 +143,56 @@ Let's filter down the servers listing real quick
 
 ``` bash
 ~/shio$bin/shio servers -m i-f5c762c1 show
-machine      host            osType   platform   arch   cpus   mem          
-i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216  
+machine      host            osType   platform   arch   cpus   mem
+i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216
 ```
 
 It only shows us that one machine now.  Now let's create a slot here too.
 
-``` bash 
+``` bash
 ~/shio$bin/shio servers -m i-f5c762c1 createSlot anotherSlot
-machine      host            osType   platform   arch   cpus   mem          
-i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216  
+machine      host            osType   platform   arch   cpus   mem
+i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216
 ```
 
 We now have 3 total slots!
 
 ``` bash
 ~/shio$bin/shio slots show
-machine      slot          host            binary   binaryVersion   config   configVersion   state     
-i-f5c762c1   blah          172.31.20.133   _empty   _empty          _empty   _empty          STOPPED   
-i-f5c762c1   anotherSlot   172.31.20.133   _empty   _empty          _empty   _empty          STOPPED   
-i-311daf06   blah          172.31.27.46    _empty   _empty          _empty   _empty          STOPPED 
+machine      slot          host            binary   binaryVersion   config   configVersion   state
+i-f5c762c1   blah          172.31.20.133   _empty   _empty          _empty   _empty          STOPPED
+i-f5c762c1   anotherSlot   172.31.20.133   _empty   _empty          _empty   _empty          STOPPED
+i-311daf06   blah          172.31.27.46    _empty   _empty          _empty   _empty          STOPPED
 ```
 
 If we wanted to just operate on the blah slots, we can do
 
 ``` bash
 ~/shio$bin/shio slots -s blah show
-machine      slot   host            binary   binaryVersion   config   configVersion   state     
-i-f5c762c1   blah   172.31.20.133   _empty   _empty          _empty   _empty          STOPPED   
-i-311daf06   blah   172.31.27.46    _empty   _empty          _empty   _empty          STOPPED   
+machine      slot   host            binary   binaryVersion   config   configVersion   state
+i-f5c762c1   blah   172.31.20.133   _empty   _empty          _empty   _empty          STOPPED
+i-311daf06   blah   172.31.27.46    _empty   _empty          _empty   _empty          STOPPED
 ```
 
 We can delete the slots with the `deleteSlot` verb
 
 ``` bash
 ~/shio$bin/shio servers deleteSlot anotherSlot
-machine      host            osType   platform   arch   cpus   mem          
-i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216   
-i-311daf06   172.31.27.46    Linux    linux      x64    1      1731977216   
+machine      host            osType   platform   arch   cpus   mem
+i-f5c762c1   172.31.20.133   Linux    linux      x64    1      1731977216
+i-311daf06   172.31.27.46    Linux    linux      x64    1      1731977216
 ~/shio$bin/shio slots show
-machine      slot   host            binary   binaryVersion   config   configVersion   state     
-i-f5c762c1   blah   172.31.20.133   _empty   _empty          _empty   _empty          STOPPED   
-i-311daf06   blah   172.31.27.46    _empty   _empty          _empty   _empty          STOPPED   
+machine      slot   host            binary   binaryVersion   config   configVersion   state
+i-f5c762c1   blah   172.31.20.133   _empty   _empty          _empty   _empty          STOPPED
+i-311daf06   blah   172.31.27.46    _empty   _empty          _empty   _empty          STOPPED
 ```
 
 Now, to deploy things, we're going to assume you already have tarballs created and in the right locations.  If you don't, just imagine that you did and that these things would magically work for you.  You've gotten this far, so you are probably good at the imagination thingie.
 
 ``` bash
 ~/shio$bin/shio slots assign my_app 0.2.4-1 demo 2013-11-10
-machine      slot   host            binary   binaryVersion   config   configVersion   state     
-i-311daf06   blah   172.31.27.46    my_app     0.2.4-1         demo     2013-11-10      RUNNING   
+machine      slot   host            binary   binaryVersion   config   configVersion   state
+i-311daf06   blah   172.31.27.46    my_app     0.2.4-1         demo     2013-11-10      RUNNING
 i-f5c762c1   blah   172.31.20.133   my_app     0.2.4-1         demo     2013-11-10      RUNNING
 ```
 
@@ -202,17 +202,17 @@ Let's stop just one of them
 
 ``` bash
 ~/shio$bin/shio slots -m i-f5c762c1 stop
-machine      slot   host            binary   binaryVersion   config   configVersion   state     
-i-f5c762c1   blah   172.31.20.133   my_app     0.2.4-1         demo     2013-11-10      STOPPED   
+machine      slot   host            binary   binaryVersion   config   configVersion   state
+i-f5c762c1   blah   172.31.20.133   my_app     0.2.4-1         demo     2013-11-10      STOPPED
 ```
 
 And admire our work
 
 ``` bash
 ~/shio$bin/shio slots show
-machine      slot   host            binary   binaryVersion   config   configVersion   state     
-i-311daf06   blah   172.31.27.46    my_app     0.2.4-1         demo     2013-11-10      RUNNING   
-i-f5c762c1   blah   172.31.20.133   my_app     0.2.4-1         demo     2013-11-10      STOPPED   
+machine      slot   host            binary   binaryVersion   config   configVersion   state
+i-311daf06   blah   172.31.27.46    my_app     0.2.4-1         demo     2013-11-10      RUNNING
+i-f5c762c1   blah   172.31.20.133   my_app     0.2.4-1         demo     2013-11-10      STOPPED
 ```
 
 You can start it up again with the `start` command and unassign a slot with the `unassign` command as well.
@@ -240,7 +240,7 @@ npm run-script coordinator
 
 The agents exist on each individual machine and they enact the will of the coordinator.  They maintain the local state of what slots exist and what is in those slots.
 
-The agent can be run with 
+The agent can be run with
 
 ```
 npm run-script agent
@@ -267,6 +267,21 @@ Config tarballs follow the path structure:
 Check out `conf/default-config.json` for shio's configuration options and their defaults.  You can override any of the defaults by creating a `config.json` file in the root directory of shio and specifying new values for the fields you want to override.
 
 You can add new config interpolation properties by putting them in the "self" portion of the config.  Everything added there on the agent processes will be available for interpolation.
+
+### updating shio
+
+1. Log into the machine and do:
+
+    ``` bash
+    sudo su -
+    service shio stop
+    rm /etc/init/shio*
+    rm -rf ~tidepool-deploy/shio
+    rm -r /mnt/shio
+    rm /var/log/upstart/shio*
+    ```
+
+1.
 
 
 ## TODO
