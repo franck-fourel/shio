@@ -3,23 +3,26 @@
 # This file tracks changes in shio configurations
 
 # get to the correct folder
-cd /home/tidepool-deploy/shio
+HOME=/home/tidepool-deploy/shio
+cd $HOME
+FOLDER=/home/tidepool-deploy/shio/shiostatus
 
 # make sure we have a shiostatus folder
 if [ ! -d shiostatus ]; then
     mkdir shiostatus
 fi
 
-./bin/shio slots show >shiostatus/latest.shiostatus
+$HOME/bin/shio slots show >$FOLDER/latest.shiostatus
 
-if $(shasum --check shiostatus/latest.checksum --status); then
+if $(shasum --check $FOLDER/latest.checksum --status); then
     # we're good
     echo "not updating"
 else
     echo "updating!"
-    shasum shiostatus/latest.shiostatus >shiostatus/latest.checksum
-    ./saveServers.sh all shiostatus/latest.restore
+    shasum $FOLDER/latest.shiostatus >$FOLDER/latest.checksum
+    $HOME/saveServers.sh all $FOLDER/latest.restore
     ts=$(date "+%Y-%m-%d-%H-%M-%S")
-    cp shiostatus/latest.shiostatus shiostatus/$ts.shiostatus
-    cp shiostatus/latest.restore shiostatus/$ts.restore
+    cp $FOLDER/latest.shiostatus $FOLDER/$ts.shiostatus
+    cp $FOLDER/latest.restore $FOLDER/$ts.restore
 fi
+
