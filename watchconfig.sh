@@ -2,6 +2,9 @@
 
 # This file tracks changes in shio configurations
 
+# get to the correct folder
+cd /home/tidepool-deploy/shio
+
 # make sure we have a shiostatus folder
 if [ ! -d shiostatus ]; then
     mkdir shiostatus
