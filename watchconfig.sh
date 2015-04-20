@@ -7,21 +7,17 @@ if [ ! -d shiostatus ]; then
     mkdir shiostatus
 fi
 
-tempfile=$(mktemp /tmp/shiostatusXXXXXX)
-./bin/shio slots show >$tempfile
+./bin/shio slots show >shiostatus/latest.shiostatus
 
-cks=$(md5 -q $tempfile)
-
-if [ -e shiostatus/latest.checksum -a "$cks" == "$(cat shiostatus/latest.checksum)" ]; then
+if [ $(shasum --check shiostatus/latest.checksum --status) ]; then
     # we're good
     echo "not updating"
     rm $tempfile
 else
     echo "updating!"
-    echo $cks>shiostatus/latest.checksum
+    shasum shiostatus/latest.shiostatus >shiostatus/latest.checksum
+    ./saveServers.sh all shiostatus/latest.restore
     ts=$(date "+%Y-%m-%d-%H-%M-%S")
-    cp $tempfile shiostatus/latest.shiostatus
-    mv $tempfile shiostatus/$ts.shiostatus
-    ./saveServers.sh all shiostatus/$ts.restore
+    cp shiostatus/latest.shiostatus shiostatus/$ts.shiostatus
+    cp shiostatus/latest.restore shiostatus/$ts.restore
 fi
-
