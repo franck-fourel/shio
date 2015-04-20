@@ -24,7 +24,7 @@ elif [ "$1" == "all" ]; then
     echo "echo WARNING -- RUNNING THIS JOB IS PROBABLY NOT WHAT YOU WANT TO DO!" >$outputfile
     echo "echo So we are going to make you edit it to prove you really want to." >>$outputfile
     echo "if [ YES == NO ]; then" >>$outputfile
-    echo >>$2
+    echo >>$outputfile
     for machine in $(bin/shio servers show --fields machine --noHeader); do
         saveOneServer $machine $outputfile
     done
