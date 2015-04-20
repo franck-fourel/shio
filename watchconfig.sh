@@ -9,10 +9,9 @@ fi
 
 ./bin/shio slots show >shiostatus/latest.shiostatus
 
-if [ $(shasum --check shiostatus/latest.checksum --status) ]; then
+if $(shasum --check shiostatus/latest.checksum --status); then
     # we're good
     echo "not updating"
-    rm $tempfile
 else
     echo "updating!"
     shasum shiostatus/latest.shiostatus >shiostatus/latest.checksum
