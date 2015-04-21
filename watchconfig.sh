@@ -14,7 +14,7 @@ fi
 
 $HOME/bin/shio slots show >$FOLDER/latest.shiostatus
 
-if $(shasum --check $FOLDER/latest.checksum --status); then
+if [ $(shasum --check $FOLDER/latest.checksum --status)==0 ]; then
     # we're good
     echo "not updating"
 else
