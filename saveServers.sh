@@ -3,9 +3,9 @@
 saveOneServer() {
     echo "# --- Setup for server $1 ---" >>$2
     echo 'echo "Creating slots"' >>$2
-    bin/shio slots show --fields machine,slot --noHeader -m $1 |sed -e "s~$1~bin/shio servers -m $1 createSlot~g" >>$2
+    bin/shio slots show --fields machine,slot --noHeader -m $1 |sed -e "s~$1~bin/shio servers --yes -m $1 createSlot~g" >>$2
     echo 'echo "Assigning to all the slots"' >>$2
-    bin/shio slots show --fields machine,slot,binary,binaryVersion,config,configVersion --noHeader -m $1 |sed -e "s~$1~bin/shio slots assign -m $1 -s~g" >>$2
+    bin/shio slots show --fields machine,slot,binary,binaryVersion,config,configVersion --noHeader -m $1 |sed -e "s~$1~bin/shio slots assign --yes -m $1 -s~g" >>$2
     echo 'echo "Done."' >>$2
     echo '# ---' >>$2
     echo >>$2
