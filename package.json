@@ -19,7 +19,7 @@
     "bunyan": "1.4.0",
     "commander": "2.1.0",
     "lodash": "2.4.1",
-    "restify": "2.7.0",
+    "restify": "2.8.4",
     "request": "2.34.0",
     "shelljs": "0.2.6",
     "sprintf-js": "0.0.7",
