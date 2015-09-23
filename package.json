@@ -27,7 +27,7 @@
     "superagent": "0.17.0"
   },
   "devDependencies": {
-    "salinity": "0.0.5",
+    "salinity": "0.0.8",
     "supertest": "0.10.0"
   }
 }
