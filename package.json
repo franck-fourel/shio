@@ -8,7 +8,7 @@
   },
   "scripts": {
     "coordinator": "node lib/coordinator.js",
-    "agent": "node --trace_gc --max_old_space_size=64 lib/agent.js"
+    "agent": "node lib/agent.js"
   },
   "repository": "https://github.com/tidepool-org/shio.git",
   "author": "Eric Tschetter",
