@@ -16,7 +16,7 @@
   "dependencies": {
     "amoeba": "0.2.1",
     "async": "0.2.10",
-    "aws-sdk": "2.0.0-rc13",
+    "aws-sdk": "2.2.9",
     "bunyan": "1.4.0",
     "commander": "2.1.0",
     "lodash": "2.4.1",
