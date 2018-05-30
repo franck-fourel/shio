@@ -1,7 +1,8 @@
 {
   "self": { "host": "localhost" }, 
   "coordinator": { "port": 17000, "childPollDuration": 60000 },
-  "gossip": { "host": "localhost", "port": 17002, "heartbeatDuration": 60000 },
+  "gossip": { "host": "35.180.114.50", "port": 17002, "heartbeatDuration": 60000 },
   "agent": { "port": 17001, "deployDir": "/tmp/deploy" },
-  "aws": {"accessKeyId": "", "secretAccessKey": ""}
+  "aws": {"accessKeyId": "", "secretAccessKey": ""},
+  "buckets": {"binaries": "tidepool-binaries", "configs": "tidepool-config"}
 }
